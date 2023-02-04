@@ -9,7 +9,7 @@ import (
 	"context"
 )
 
-const createEntrie = `-- name: CreateEntrie :one
+const createEntry = `-- name: CreateEntry :one
 INSERT INTO entries (
   account_id,
   amount
@@ -18,13 +18,13 @@ INSERT INTO entries (
 ) RETURNING id, account_id, amount, created_at
 `
 
-type CreateEntrieParams struct {
+type CreateEntryParams struct {
 	AccountID int64 `json:"account_id"`
 	Amount    int64 `json:"amount"`
 }
 
-func (q *Queries) CreateEntrie(ctx context.Context, arg CreateEntrieParams) (Entry, error) {
-	row := q.db.QueryRowContext(ctx, createEntrie, arg.AccountID, arg.Amount)
+func (q *Queries) CreateEntry(ctx context.Context, arg CreateEntryParams) (Entry, error) {
+	row := q.db.QueryRowContext(ctx, createEntry, arg.AccountID, arg.Amount)
 	var i Entry
 	err := row.Scan(
 		&i.ID,
@@ -35,13 +35,13 @@ func (q *Queries) CreateEntrie(ctx context.Context, arg CreateEntrieParams) (Ent
 	return i, err
 }
 
-const getEntrie = `-- name: GetEntrie :one
+const getEntry = `-- name: GetEntry :one
 SELECT id, account_id, amount, created_at FROM entries
 WHERE id = $1 LIMIT 1
 `
 
-func (q *Queries) GetEntrie(ctx context.Context, id int64) (Entry, error) {
-	row := q.db.QueryRowContext(ctx, getEntrie, id)
+func (q *Queries) GetEntry(ctx context.Context, id int64) (Entry, error) {
+	row := q.db.QueryRowContext(ctx, getEntry, id)
 	var i Entry
 	err := row.Scan(
 		&i.ID,

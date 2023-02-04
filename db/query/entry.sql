@@ -1,4 +1,4 @@
--- name: CreateEntrie :one
+-- name: CreateEntry :one
 INSERT INTO entries (
   account_id,
   amount
@@ -6,7 +6,7 @@ INSERT INTO entries (
   $1, $2
 ) RETURNING *;
 
--- name: GetEntrie :one
+-- name: GetEntry :one
 SELECT * FROM entries
 WHERE id = $1 LIMIT 1;
 
