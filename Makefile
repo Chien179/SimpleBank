@@ -9,8 +9,14 @@ dropdb:
 migrateup:
 	migrate -path db/migration -database "postgresql://root:123456@localhost:5432/simple_bank?sslmode=disable" -verbose up	
 
+migrateup1:
+	migrate -path db/migration -database "postgresql://root:123456@localhost:5432/simple_bank?sslmode=disable" -verbose up 1
+
 migratedown:
 	migrate -path db/migration -database "postgresql://root:123456@localhost:5432/simple_bank?sslmode=disable" -verbose down
+
+migratedown1:
+	migrate -path db/migration -database "postgresql://root:123456@localhost:5432/simple_bank?sslmode=disable" -verbose down 1
 
 sqlc:
 	docker run --rm -v "C:\Users\chien\Projects\SimpleBank:/src" -w /src kjconroy/sqlc generate
@@ -24,4 +30,4 @@ server:
 mock:
 	mockgen -build_flags=--mod=mod -package mockdb -destination db/mock/store.go github.com/Chien179/SimpleBank/db/sqlc Store
 
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc test server mock
+.PHONY: postgres createdb dropdb migrateup migratedown migrateup1 migratedown1 sqlc test server mock
